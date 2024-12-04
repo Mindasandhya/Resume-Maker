@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f4f4f4;
+    }
+    .form-container {
+      width: 800px;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form-group textarea {
+      resize: vertical;
+    }
+    .button-container {
+      text-align: center;
+    }
+    button {
+      background-color: #007BFF;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .resume {
+      width: 800px;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+    .resume h1 {
+      text-align: center;
+    }
+    .section {
+      margin: 20px 0;
+    }
+    .section h2 {
+      border-bottom: 2px solid #555;
+      padding-bottom: 5px;
+    }
+    .section p {
+      margin: 5px 0;
+    }
+  </style>
+  <!-- Include html2canvas library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <!-- Include jsPDF library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Enter Resume Information</h2>
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name">
+    </div>
+    <div class="form-group">
+      <label for="contact">Contact:</label>
+      <input type="text" id="contact">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email">
+    </div>
+    <div class="form-group">
+      <label for="education">Education:</label>
+      <textarea id="education"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="skills">Skills:</label>
+      <textarea id="skills"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="experience">Experience:</label>
+      <textarea id="experience"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="projects">Projects:</label>
+      <textarea id="projects"></textarea>
+    </div>
+    <div class="button-container">
+      <button onclick="generateResume()">Generate Resume</button>
+      <button onclick="downloadPDF()">Download PDF</button>
+    </div>
+  </div>
+
+  <div id="resume" class="resume">
+    <h3>Resume</h3>
+    <div class="section">
+      <h3>Name</h3>
+      <p id="resume-name"></p>
+    </div>
+    <div class="section">
+      <h3>Contact</h3>
+      <p id="resume-contact"></p>
+    </div>
+ <div class="section">
+      <h2>Email</h2>
+      <p id="resume-email"></p>
+    </div>
+    <div class="section">
+      <h3>Education</h3>
+      <p id="resume-education"></p>
+    </div>
+    <div class="section">
+      <h3>Skills</h3>
+      <p id="resume-skills"></p>
+    </div>
+    <div class="section">
+      <h3>Experience</h3>
+      <p id="resume-experience"></p>
+    </div>
+    <div class="section">
+      <h3>Projects</h3>
+      <p id="resume-projects"></p>
+    </div>
+  </div>
+
+  <script>
+    function generateResume() {
+      const name = document.getElementById("name").value;
+      const contact = document.getElementById("contact").value;
+      const email = document.getElementById("email").value;
+      const education = document.getElementById("education").value;
+      const skills = document.getElementById("skills").value;
+      const experience = document.getElementById("experience").value;
+      const projects = document.getElementById("projects").value;
+
+      document.getElementById("resume-name").innerText = name;
+      document.getElementById("resume-contact").innerText = contact;
+      document.getElementById("resume-email").innerText = email;
+      document.getElementById("resume-education").innerText = education;
+      document.getElementById("resume-skills").innerText = skills;
+      document.getElementById("resume-experience").innerText = experience;
+      document.getElementById("resume-projects").innerText = projects;
+
+      document.getElementById("resume").style.display = "block";
+    }
+
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const resume = document.getElementById("resume");
+      doc.html(resume, {
+        callback: function (doc) {
+          doc.save("Resume.pdf");
+        },
+        x: 10,
+        y: 10
+      });
+    }
+  </script>
+</body>
+</html>
